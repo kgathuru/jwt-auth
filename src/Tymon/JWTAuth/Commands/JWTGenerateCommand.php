@@ -67,7 +67,7 @@ class JWTGenerateCommand extends Command {
 	{
 		$env = $this->option('env') ? $this->option('env').'/' : '';
 
-		$contents = $this->files->get($path = $this->laravel['path']."/config/packages/tymon/jwt-auth/{$env}config.php");
+		$contents = $this->files->get($path = $this->laravel->basePath()."/config/packages/tymon/jwt-auth/{$env}config.php");
 
 		return [$path, $contents];
 	}

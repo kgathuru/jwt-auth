@@ -3,7 +3,8 @@
 use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Commands\JWTGenerateCommand;
-use Tymon\JWTAuth\JWTAuthFilter;
+use Tymon\JWTAuth\Middleware\JWTAuthMiddleware;
+use Illuminate\Contracts\Routing\ResponseFactory;
 
 class JWTAuthServiceProvider extends ServiceProvider {
 
@@ -38,7 +39,7 @@ class JWTAuthServiceProvider extends ServiceProvider {
 
         $this->commands('tymon.jwt.generate');
 
-        $this->app['router']->filter('jwt-auth', 'tymon.jwt.filter');
+        $this->app['router']->middleware('jwt-auth', 'tymon.jwt.middleware');
 	}
 
 	/**
@@ -50,7 +51,7 @@ class JWTAuthServiceProvider extends ServiceProvider {
 	{
 		$this->registerJWTProvider();
 		$this->registerJWTAuth();
-		$this->registerJWTAuthFilter();
+		$this->registerJWTAuthMiddleware();
 	}
 
 	protected function registerJWTProvider()
@@ -82,10 +83,10 @@ class JWTAuthServiceProvider extends ServiceProvider {
 		});
 	}
 
-	protected function registerJWTAuthFilter()
+	protected function registerJWTAuthMiddleware()
 	{
-		$this->app['tymon.jwt.filter'] = $this->app->share(function ($app) {
-			return new JWTAuthFilter($app['events'], $app['tymon.jwt.auth']);
+		$this->app['tymon.jwt.middleware'] = $this->app->share(function ($app) {
+			return new JWTAuthMiddleware(new ResponseFactory, $app['events'], $app['tymon.jwt.auth']);
 		});
 	}
 
