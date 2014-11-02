@@ -102,7 +102,7 @@ class JWTAuthServiceProvider extends ServiceProvider {
 			'tymon.jwt.provider',
 			'tymon.jwt.auth',
 			'tymon.jwt.generate',
-			'tymon.jwt.filter',
+			'tymon.jwt.middleware',
 			'Tymon\JWTAuth\Providers\ProviderInterface',
 			'Tymon\JWTAuth\JWTAuth'
 		];
