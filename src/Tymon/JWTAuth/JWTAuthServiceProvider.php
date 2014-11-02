@@ -4,7 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use Tymon\JWTAuth\JWTAuth;
 use Tymon\JWTAuth\Commands\JWTGenerateCommand;
 use Tymon\JWTAuth\Middleware\JWTAuthMiddleware;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Routing\ResponseFactory;
 
 class JWTAuthServiceProvider extends ServiceProvider {
 
@@ -86,7 +86,8 @@ class JWTAuthServiceProvider extends ServiceProvider {
 	protected function registerJWTAuthMiddleware()
 	{
 		$this->app['tymon.jwt.middleware'] = $this->app->share(function ($app) {
-			return new JWTAuthMiddleware(new ResponseFactory, $app['events'], $app['tymon.jwt.auth']);
+			$response = $app->make('Illuminate\Routing\ResponseFactory');
+			return new JWTAuthMiddleware($response, $app['events'], $app['tymon.jwt.auth']);
 		});
 	}
 
