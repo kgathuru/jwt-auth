@@ -8,7 +8,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Events\Dispatcher;
 use Tymon\JWTAuth\JWTAuth;
 
-class AuthMiddleware implements Middleware {
+class JWTAuthMiddleware implements Middleware {
 
     /**
      * Create a new Middleware instance
