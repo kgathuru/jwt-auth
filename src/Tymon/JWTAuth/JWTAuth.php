@@ -162,6 +162,13 @@ class JWTAuth {
 	 */
 	protected function parseAuthHeader($method = 'bearer')
 	{
+
+		//try using 'access-token' header
+		$header = $this->request->headers->get('access-token');
+		if ($header) {
+			return trim(str_ireplace($method, '', $header));
+		}
+
 		$header = $this->request->headers->get('authorization');
 
 		if ( ! starts_with( strtolower($header), $method ) ) {
